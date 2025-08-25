@@ -12,24 +12,16 @@ dotenv.config();
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
-    origin: "http://localhost:5173",
-    credentials: true,
+  origin: [
+    "http://localhost:5173",                // local dev
+    "https://ydeleshwar-rao.github.io/full-stack-Ai-chatApp-fn"      // GitHub Pages
+  ],
+  credentials: true,
 }));
-
-const __dirname = path.resolve();
-
 app.use("/api/auth", authRoutes);
 app.use("/api/messages", messageRoutes);
-
-if (process.env.NODE_ENV === "production") {
-    app.use(express.static(path.join(__dirname, "../frontend/dist")));
-
-    app.get("/*splat", (req, res) => {
-        res.sendFile(path.join(__dirname, "../frontend", "dist", "index.html"));
-    });
-}
-                                            
-const PORT =  4000;   //process.env.PORT ||
+                                       
+const PORT =  process.env.PORT || 4000;   //process.env.PORT ||
 server.listen(PORT, () => {
     console.log(`server running on port ${PORT}`);
 });
